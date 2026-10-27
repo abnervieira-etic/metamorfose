@@ -3,20 +3,33 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     
-    private float moveSpeed;
-    private float moveX;
-    private float moveZ;
-    [SerializeField] private Rigidbody2D playerRigidbody;
+    [Header("Movement Settings")]
+    public float moveSpeed = 10f;
+    public float dragValue = 3f; // Adjust for fluidity
+
+    private Rigidbody2D rb;
+    private Vector2 movementInput;
+
     void Start()
     {
-        moveSpeed = 5f;
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
+        rb.freezeRotation = true;
+        rb.linearDamping = dragValue; // Apply drag for smooth deceleration
     }
 
     void Update()
     {
-        moveX = Input.GetAxis("Horizontal") * moveSpeed;
-        moveZ = Input.GetAxis("Vertical") * moveSpeed;
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        
+        movementInput = new Vector2(h, v).normalized;
 
-        playerRigidbody.linearVelocity = new Vector2(moveX, moveZ);
+        
+    }
+
+    void FixedUpdate()
+    {
+        rb.linearVelocity = movementInput * moveSpeed;
     }
 }
