@@ -17,8 +17,18 @@ public class Projectile : MonoBehaviour
         _rb.linearVelocity = direction * speed;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("enemy"))
+        {
+            EnemyA enemy = other.gameObject.GetComponent<EnemyA>();
+            if (enemy != null)
+            {
+                enemy.GetHit(50);
+                Debug.Log($"Projectile hit {other.gameObject.name}, dealing 50 damage.");
+            }
+        }
+
         if (!other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);

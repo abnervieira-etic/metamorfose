@@ -33,7 +33,7 @@ public class AttackSystem : MonoBehaviour
         {
             canUse = false;
             Shoot();
-            yield return new WaitForSeconds(0.5f); // Cooldown duration
+            yield return new WaitForSeconds(0.5f);
             canUse = true;
         }
         
